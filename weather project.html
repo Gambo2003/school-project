@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Forecast</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
+                        url('https://images.unsplash.com/photo-1529655683826-aba9b3e77383?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat center center fixed;
+            background-size: cover;
+            min-height: 100vh;
+            padding: 20px;
+            color: rgb(239, 231, 232);
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            transform: translateY(0);
+            transition: transform 0.5s ease, box-shadow 0.5s ease;
+        }
+
+        .container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            animation: slideDown 1s ease-out;
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .search-container {
+            display: flex;
+            margin-bottom: 30px;
+            animation: slideUp 1s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        #city-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid #4a90e2;
+            border-radius: 8px 0 0 8px;
+            font-size: 16px;
+            outline: none;
+            background-color: rgba(255, 255, 255, 0.9);
+            transition: all 0.3s ease;
+        }
+
+        #city-input:focus {
+            background-color: white;
+            box-shadow: 0 0 10px rgba(74, 144, 226, 0.5);
+        }
+
+        #search-btn {
+            padding: 12px 20px;
+            background-color: #4a90e2;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        #search-btn:hover {
+            background-color: #357abd;
+            transform: scale(1.05);
+        }
+
+        .weather-display {
+            display: none;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .current-weather {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.4);
+            border-radius: 10px;
+            transition: all 0.5s ease;
+        }
+
+        .current-weather:hover {
+            background-color: rgba(0, 0, 0, 0.6);
+            transform: scale(1.01);
+        }
+
+        .weather-info {
+            flex: 1;
+        }
+
+        #city-name {
+            font-size: 28px;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .temp-container {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 10px;
+        }
+
+        #current-temp {
+            font-size: 64px;
+            font-weight: bold;
+        }
+
+        .temp-unit {
+            font-size: 24px;
+            margin-top: 10px;
+            color: #ccc;
+        }
+
+        #weather-desc {
+            font-size: 20px;
+            color: #ccc;
+            text-transform: capitalize;
+        }
+
+        .weather-icon {
+            flex: 0 0 120px;
+            text-align: center;
+        }
+
+        #weather-img {
+            width: 100px;
+            height: 100px;
+            filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5));
+            transition: all 0.5s ease;
+        }
+
+        #weather-img:hover {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .weather-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .detail {
+            background-color: rgba(74, 144, 226, 0.2);
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(74, 144, 226, 0.3);
+        }
+
+        .detail:hover {
+            background-color: rgba(74, 144, 226, 0.4);
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .detail i {
+            font-size: 24px;
+            color: #4a90e2;
+            margin-bottom: 5px;
+        }
+
+        .detail span {
+            display: block;
+        }
+
+        .detail span:first-of-type {
+            color: #ccc;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .detail span:last-of-type {
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .forecast-container h3 {
+            margin-bottom: 15px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .forecast {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+        }
+
+        .forecast-day {
+            background-color: rgba(0, 0, 0, 0.4);
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .forecast-day:hover {
+            background-color: rgba(74, 144, 226, 0.4);
+            transform: scale(1.05);
+        }
+
+        .forecast-day img {
+            width: 50px;
+            height: 50px;
+            margin: 5px 0;
+            filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.5));
+        }
+
+        .forecast-day .day {
+            font-weight: bold;
+        }
+
+        .forecast-day .temp {
+            color: #ccc;
+            font-size: 14px;
+        }
+
+        .error-message {
+            background-color: rgba(255, 59, 48, 0.7);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+            animation: fadeIn 0.5s ease-in-out;
+            display: none;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .current-weather {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .weather-icon {
+                margin-top: 15px;
+            }
+            
+            .temp-container {
+                justify-content: center;
+            }
+        }
+
+        /* Floating animation for weather icon */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        /* Pulse animation for search button */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        /* Firebase Authentication UI styles */
+        .auth-container {
+            max-width: 400px;
+            margin: 40px auto 0 auto;
+            background: rgba(0,0,0,0.8);
+            border-radius: 10px;
+            padding: 30px 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+            display: none;
+        }
+        .auth-container.active {
+            display: block;
+        }
+        .auth-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .auth-container input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #4a90e2;
+            font-size: 16px;
+        }
+        .auth-container button {
+            width: 100%;
+            padding: 10px;
+            background: #4a90e2;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .auth-toggle {
+            text-align: center;
+            margin-top: 10px;
+            color: #ccc;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+        .logout-btn {
+            float: right;
+            background: #ff3b30;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 6px 14px;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+    </style>
+    <!-- Firebase App (the core Firebase SDK) -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+</head>
+<body>
+    <div class="auth-container active" id="auth-container">
+        <h2 id="auth-title">Login</h2>
+        <input type="email" id="auth-email" placeholder="Email" required />
+        <input type="password" id="auth-password" placeholder="Password" required />
+        <button id="auth-action-btn">Login</button>
+        <div class="auth-toggle" id="toggle-auth">Don't have an account? Sign up</div>
+        <div id="auth-error" class="error-message" style="display:none;"></div>
+    </div>
+    <button class="logout-btn" id="logout-btn" style="display:none;">Logout</button>
+    <div class="container" id="weather-app" style="display:none;">
+        <h1>Weather Forecast</h1>
+        
+        <div class="search-container">
+            <input type="text" id="city-input" placeholder="Enter city name">
+            <button id="search-btn" class="pulse"><i class="fas fa-search"></i> Search</button>
+        </div>
+        
+        <div id="error-message" class="error-message">
+            City not found. Please check the spelling and try again.
+        </div>
+        
+        <div class="weather-display">
+            <div class="current-weather">
+                <div class="weather-info">
+                    <h2 id="city-name">--</h2>
+                    <div class="temp-container">
+                        <span id="current-temp">--</span>
+                        <span class="temp-unit">°C</span>
+                    </div>
+                    <div id="weather-desc">--</div>
+                </div>
+                <div class="weather-icon">
+                    <img id="weather-img" src="" alt="Weather icon" class="floating">
+                </div>
+            </div>
+            
+            <div class="weather-details">
+                <div class="detail">
+                    <i class="fas fa-temperature-high"></i>
+                    <span>Feels Like</span>
+                    <span id="feels-like">--°C</span>
+                </div>
+                <div class="detail">
+                    <i class="fas fa-tint"></i>
+                    <span>Humidity</span>
+                    <span id="humidity">--%</span>
+                </div>
+                <div class="detail">
+                    <i class="fas fa-wind"></i>
+                    <span>Wind Speed</span>
+                    <span id="wind-speed">-- m/s</span>
+                </div>
+                <div class="detail">
+                    <i class="fas fa-compress-alt"></i>
+                    <span>Pressure</span>
+                    <span id="pressure">-- hPa</span>
+                </div>
+            </div>
+            
+            <div class="forecast-container">
+                <h3>5-Day Forecast</h3>
+                <div class="forecast" id="forecast">
+                    <!-- Forecast items will be added here by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Firebase configuration (replace with your own config from Firebase Console)
+        const firebaseConfig = {
+            apiKey: "AIzaSyCdLRYCZCUVM0FiLS2tLfm3r-uqgFckB28",
+
+  authDomain: "school-1-be8ca.firebaseapp.com",
+
+  projectId: "school-1-be8ca",
+
+  storageBucket: "school-1-be8ca.firebasestorage.app",
+
+  messagingSenderId: "1032263389605",
+
+  appId: "1:1032263389605:web:d2af2fe37fd3e26865984c",
+
+  measurementId: "G-VL643W2XCB"
+
+        };
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+
+        // Auth UI logic
+        const authContainer = document.getElementById('auth-container');
+        const authTitle = document.getElementById('auth-title');
+        const authEmail = document.getElementById('auth-email');
+        const authPassword = document.getElementById('auth-password');
+        const authActionBtn = document.getElementById('auth-action-btn');
+        const toggleAuth = document.getElementById('toggle-auth');
+        const authError = document.getElementById('auth-error');
+        const logoutBtn = document.getElementById('logout-btn');
+        const weatherApp = document.getElementById('weather-app');
+
+        let isLogin = true;
+
+        function showAuthError(msg) {
+            authError.textContent = msg;
+            authError.style.display = 'block';
+            setTimeout(() => { authError.style.display = 'none'; }, 4000);
+        }
+
+        toggleAuth.onclick = function() {
+            isLogin = !isLogin;
+            if (isLogin) {
+                authTitle.textContent = 'Login';
+                authActionBtn.textContent = 'Login';
+                toggleAuth.textContent = "Don't have an account? Sign up";
+            } else {
+                authTitle.textContent = 'Sign Up';
+                authActionBtn.textContent = 'Sign Up';
+                toggleAuth.textContent = 'Already have an account? Login';
+            }
+        };
+
+        authActionBtn.onclick = function() {
+            const email = authEmail.value.trim();
+            const password = authPassword.value.trim();
+            if (!email || !password) {
+                showAuthError('Please enter email and password.');
+                return;
+            }
+            if (isLogin) {
+                auth.signInWithEmailAndPassword(email, password)
+                    .catch(e => showAuthError(e.message));
+            } else {
+                auth.createUserWithEmailAndPassword(email, password)
+                    .catch(e => showAuthError(e.message));
+            }
+        };
+
+        logoutBtn.onclick = function() {
+            auth.signOut();
+        };
+
+        auth.onAuthStateChanged(user => {
+            if (user) {
+                authContainer.classList.remove('active');
+                weatherApp.style.display = 'block';
+                logoutBtn.style.display = 'inline-block';
+            } else {
+                authContainer.classList.add('active');
+                weatherApp.style.display = 'none';
+                logoutBtn.style.display = 'none';
+            }
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const API_KEY = '4d8fb5b93d4af21d66a2948710284366'; 
+            const cityInput = document.getElementById('city-input');
+            const searchBtn = document.getElementById('search-btn');
+            const weatherDisplay = document.querySelector('.weather-display');
+            const errorMessage = document.getElementById('error-message');
+            
+            // Elements for current weather
+            const cityName = document.getElementById('city-name');
+            const currentTemp = document.getElementById('current-temp');
+            const weatherDesc = document.getElementById('weather-desc');
+            const weatherImg = document.getElementById('weather-img');
+            const feelsLike = document.getElementById('feels-like');
+            const humidity = document.getElementById('humidity');
+            const windSpeed = document.getElementById('wind-speed');
+            const pressure = document.getElementById('pressure');
+            const forecastContainer = document.getElementById('forecast');
+            
+            // Function to hide error message
+            function hideErrorMessage() {
+                errorMessage.style.display = 'none';
+            }
+            
+            // Funcxtion to show error message
+            function showErrorMessage(message) {
+                errorMessage.textContent = message;
+                errorMessage.style.display = 'block';
+                
+                // Hide message after 5 seconds
+                setTimeout(hideErrorMessage, 5000);
+            }
+            
+            // Fetch weather data
+            async function fetchWeatherData(city) {
+                try {
+                    // Hide error message
+                    hideErrorMessage();
+                    
+                    // Show loading state
+                    weatherDisplay.style.display = 'block';
+                    forecastContainer.innerHTML = '<div class="loading">Loading...</div>';
+                    
+                    // Validate city input
+                    if (!city || city.trim() === '') {
+                        throw new Error('Please enter a valid city name');
+                    }
+                    
+                    // Use encodeURIComponent to handle special characters and spaces
+                    const encodedCity = encodeURIComponent(city.trim());
+                    
+                    // Fetch from backend instead of OpenWeatherMap
+                    const backendResponse = await fetch(`http://localhost:3000/weather?city=${encodedCity}`);
+                    if (!backendResponse.ok) {
+                        if (backendResponse.status === 404) {
+                            throw new Error('City not found. Please check the spelling and try again.');
+                        } else {
+                            throw new Error(`Error: ${backendResponse.status} - ${backendResponse.statusText}`);
+                        }
+                    }
+                    const backendData = await backendResponse.json();
+                    // Adapt backend response to expected format
+                    return { current: backendData, forecast: { list: [] } };
+                } catch (error) {
+                    console.error('Error fetching weather data:', error);
+                    weatherDisplay.style.display = 'none';
+                    showErrorMessage(error.message || 'Error fetching weather data. Please try again.');
+                    return null;
+                }
+            }
+            
+            // Display weather data
+            function displayWeatherData(data) {
+                if (!data) return;
+                const { current } = data;
+                // Display current weather
+                cityName.textContent = current.city || '--';
+                currentTemp.textContent = current.temperature !== undefined ? Math.round(current.temperature) : '--';
+                weatherDesc.textContent = current.condition || '--';
+                weatherImg.src = "https://openweathermap.org/img/wn/01d@2x.png";
+                weatherImg.alt = current.condition || '--';
+                feelsLike.textContent = `--°C`;
+                humidity.textContent = `--%`;
+                windSpeed.textContent = `-- m/s`;
+                pressure.textContent = `-- hPa`;
+                forecastContainer.innerHTML = '<div>No forecast data from backend.</div>';
+                weatherDisplay.style.opacity = 0;
+                weatherDisplay.style.display = 'block';
+                void weatherDisplay.offsetWidth;
+                weatherDisplay.style.opacity = 1;
+                weatherDisplay.style.transition = 'opacity 0.5s ease-in-out';
+            }
+            
+            // Event listeners
+            searchBtn.addEventListener('click', async () => {
+                const city = cityInput.value.trim();
+                
+                if (city) {
+                    // Add click animation
+                    searchBtn.classList.add('clicked');
+                    setTimeout(() => searchBtn.classList.remove('clicked'), 300);
+                    
+                    const weatherData = await fetchWeatherData(city);
+                    if (weatherData) {
+                        displayWeatherData(weatherData);
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
