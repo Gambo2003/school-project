@@ -283,7 +283,6 @@
             }
         }
 
-        /* Floating animation for weather icon */
         @keyframes float {
             0% { transform: translateY(0px); }
             50% { transform: translateY(-10px); }
@@ -294,7 +293,6 @@
             animation: float 3s ease-in-out infinite;
         }
 
-        /* Pulse animation for search button */
         @keyframes pulse {
             0% { transform: scale(1); }
             50% { transform: scale(1.05); }
@@ -305,7 +303,6 @@
             animation: pulse 2s infinite;
         }
 
-        /* Firebase Authentication UI styles */
         .auth-container {
             max-width: 400px;
             margin: 40px auto 0 auto;
@@ -357,12 +354,78 @@
             margin-bottom: 10px;
             cursor: pointer;
         }
+
+        .weather-left, .weather-right {
+            position: fixed;
+            top: 0;
+            width: 220px;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .weather-left {
+            left: 0;
+            display: flex;
+            align-items: flex-end;
+            justify-content: flex-start;
+        }
+        .weather-right {
+            right: 0;
+            display: flex;
+            align-items: flex-end;
+            justify-content: flex-end;
+        }
+        .raindrop {
+            position: absolute;
+            width: 4px;
+            height: 36px;
+            background: linear-gradient(to bottom, #b3e0ff 60%, #3399ff 100%);
+            border-radius: 2px;
+            animation: rain-fall 1.1s linear infinite;
+        }
+        .raindrop:nth-child(1) { left: 10px; animation-delay: 0.1s; }
+        .raindrop:nth-child(2) { left: 30px; animation-delay: 0.3s; }
+        .raindrop:nth-child(3) { left: 50px; animation-delay: 0.6s; }
+        .raindrop:nth-child(4) { left: 70px; animation-delay: 0.2s; }
+        .raindrop:nth-child(5) { left: 90px; animation-delay: 0.5s; }
+        .raindrop:nth-child(6) { left: 110px; animation-delay: 0.7s; }
+        .raindrop:nth-child(7) { left: 130px; animation-delay: 0.4s; }
+        .raindrop:nth-child(8) { left: 150px; animation-delay: 0.8s; }
+        .raindrop:nth-child(9) { left: 170px; animation-delay: 0.9s; }
+        .raindrop:nth-child(10) { left: 190px; animation-delay: 0.15s; }
+        .raindrop:nth-child(11) { left: 210px; animation-delay: 0.55s; }
+        .raindrop:nth-child(12) { left: 200px; animation-delay: 0.35s; }
+        .raindrop:nth-child(13) { left: 180px; animation-delay: 0.75s; }
+        .raindrop:nth-child(14) { left: 160px; animation-delay: 0.25s; }
+        .raindrop:nth-child(15) { left: 140px; animation-delay: 0.65s; }
+        .raindrop:nth-child(16) { left: 120px; animation-delay: 0.85s; }
+        .raindrop:nth-child(17) { left: 100px; animation-delay: 0.95s; }
+        .raindrop:nth-child(18) { left: 80px; animation-delay: 0.05s; }
+        .raindrop:nth-child(19) { left: 60px; animation-delay: 0.45s; }
+        .raindrop:nth-child(20) { left: 40px; animation-delay: 0.6s; }
+        @keyframes rain-fall {
+            0% { top: -40px; opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { top: 100vh; opacity: 0; }
+        }
     </style>
-    <!-- Firebase App (the core Firebase SDK) -->
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
 </head>
 <body>
+    <div class="weather-left">
+        <div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div>
+        <div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div>
+        <div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div>
+        <div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div>
+    </div>
+    <div class="weather-right">
+        <div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div>
+        <div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div>
+        <div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div>
+        <div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div><div class="raindrop"></div>
+    </div>
     <div class="auth-container active" id="auth-container">
         <h2 id="auth-title">Login</h2>
         <input type="email" id="auth-email" placeholder="Email" required />
@@ -374,16 +437,13 @@
     <button class="logout-btn" id="logout-btn" style="display:none;">Logout</button>
     <div class="container" id="weather-app" style="display:none;">
         <h1>Weather Forecast</h1>
-        
         <div class="search-container">
             <input type="text" id="city-input" placeholder="Enter city name">
             <button id="search-btn" class="pulse"><i class="fas fa-search"></i> Search</button>
         </div>
-        
         <div id="error-message" class="error-message">
             City not found. Please check the spelling and try again.
         </div>
-        
         <div class="weather-display">
             <div class="current-weather">
                 <div class="weather-info">
@@ -398,7 +458,6 @@
                     <img id="weather-img" src="" alt="Weather icon" class="floating">
                 </div>
             </div>
-            
             <div class="weather-details">
                 <div class="detail">
                     <i class="fas fa-temperature-high"></i>
@@ -421,38 +480,25 @@
                     <span id="pressure">-- hPa</span>
                 </div>
             </div>
-            
             <div class="forecast-container">
                 <h3>5-Day Forecast</h3>
                 <div class="forecast" id="forecast">
-                    <!-- Forecast items will be added here by JavaScript -->
                 </div>
             </div>
         </div>
     </div>
-
     <script>
-        // Firebase configuration (replace with your own config from Firebase Console)
         const firebaseConfig = {
             apiKey: "AIzaSyCdLRYCZCUVM0FiLS2tLfm3r-uqgFckB28",
-
   authDomain: "school-1-be8ca.firebaseapp.com",
-
   projectId: "school-1-be8ca",
-
   storageBucket: "school-1-be8ca.firebasestorage.app",
-
   messagingSenderId: "1032263389605",
-
   appId: "1:1032263389605:web:d2af2fe37fd3e26865984c",
-
   measurementId: "G-VL643W2XCB"
-
         };
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
-
-        // Auth UI logic
         const authContainer = document.getElementById('auth-container');
         const authTitle = document.getElementById('auth-title');
         const authEmail = document.getElementById('auth-email');
@@ -462,15 +508,12 @@
         const authError = document.getElementById('auth-error');
         const logoutBtn = document.getElementById('logout-btn');
         const weatherApp = document.getElementById('weather-app');
-
         let isLogin = true;
-
         function showAuthError(msg) {
             authError.textContent = msg;
             authError.style.display = 'block';
             setTimeout(() => { authError.style.display = 'none'; }, 4000);
         }
-
         toggleAuth.onclick = function() {
             isLogin = !isLogin;
             if (isLogin) {
@@ -483,7 +526,6 @@
                 toggleAuth.textContent = 'Already have an account? Login';
             }
         };
-
         authActionBtn.onclick = function() {
             const email = authEmail.value.trim();
             const password = authPassword.value.trim();
@@ -499,11 +541,9 @@
                     .catch(e => showAuthError(e.message));
             }
         };
-
         logoutBtn.onclick = function() {
             auth.signOut();
         };
-
         auth.onAuthStateChanged(user => {
             if (user) {
                 authContainer.classList.remove('active');
@@ -523,8 +563,6 @@
             const searchBtn = document.getElementById('search-btn');
             const weatherDisplay = document.querySelector('.weather-display');
             const errorMessage = document.getElementById('error-message');
-            
-            // Elements for current weather
             const cityName = document.getElementById('city-name');
             const currentTemp = document.getElementById('current-temp');
             const weatherDesc = document.getElementById('weather-desc');
@@ -534,40 +572,23 @@
             const windSpeed = document.getElementById('wind-speed');
             const pressure = document.getElementById('pressure');
             const forecastContainer = document.getElementById('forecast');
-            
-            // Function to hide error message
             function hideErrorMessage() {
                 errorMessage.style.display = 'none';
             }
-            
-            // Funcxtion to show error message
             function showErrorMessage(message) {
                 errorMessage.textContent = message;
                 errorMessage.style.display = 'block';
-                
-                // Hide message after 5 seconds
                 setTimeout(hideErrorMessage, 5000);
             }
-            
-            // Fetch weather data
             async function fetchWeatherData(city) {
                 try {
-                    // Hide error message
                     hideErrorMessage();
-                    
-                    // Show loading state
                     weatherDisplay.style.display = 'block';
                     forecastContainer.innerHTML = '<div class="loading">Loading...</div>';
-                    
-                    // Validate city input
                     if (!city || city.trim() === '') {
                         throw new Error('Please enter a valid city name');
                     }
-                    
-                    // Use encodeURIComponent to handle special characters and spaces
                     const encodedCity = encodeURIComponent(city.trim());
-                    
-                    // Fetch from backend instead of OpenWeatherMap
                     const backendResponse = await fetch(`http://localhost:3000/weather?city=${encodedCity}`);
                     if (!backendResponse.ok) {
                         if (backendResponse.status === 404) {
@@ -577,8 +598,12 @@
                         }
                     }
                     const backendData = await backendResponse.json();
-                    // Adapt backend response to expected format
-                    return { current: backendData, forecast: { list: [] } };
+                    const forecastResponse = await fetch(`http://localhost:3000/forecast?city=${encodedCity}`);
+                    let forecastData = { forecast: [] };
+                    if (forecastResponse.ok) {
+                        forecastData = await forecastResponse.json();
+                    }
+                    return { current: backendData, forecast: forecastData.forecast };
                 } catch (error) {
                     console.error('Error fetching weather data:', error);
                     weatherDisplay.style.display = 'none';
@@ -586,42 +611,56 @@
                     return null;
                 }
             }
-            
-            // Display weather data
             function displayWeatherData(data) {
                 if (!data) return;
-                const { current } = data;
-                // Display current weather
+                const { current, forecast } = data;
                 cityName.textContent = current.city || '--';
                 currentTemp.textContent = current.temperature !== undefined ? Math.round(current.temperature) : '--';
                 weatherDesc.textContent = current.condition || '--';
                 weatherImg.src = "https://openweathermap.org/img/wn/01d@2x.png";
                 weatherImg.alt = current.condition || '--';
-                feelsLike.textContent = `--°C`;
-                humidity.textContent = `--%`;
-                windSpeed.textContent = `-- m/s`;
-                pressure.textContent = `-- hPa`;
-                forecastContainer.innerHTML = '<div>No forecast data from backend.</div>';
+                feelsLike.textContent = current.feels_like !== undefined ? `${Math.round(current.feels_like)}°C` : '--°C';
+                humidity.textContent = current.humidity !== undefined ? `${current.humidity}%` : '--%';
+                windSpeed.textContent = current.wind_speed !== undefined ? `${current.wind_speed} m/s` : '-- m/s';
+                pressure.textContent = current.pressure !== undefined ? `${current.pressure} hPa` : '-- hPa';
+                forecastContainer.innerHTML = '';
+                if (forecast && forecast.length > 0) {
+                    forecast.forEach(day => {
+                        const date = new Date(day.date);
+                        const dayName = date.toLocaleDateString('en-US', { weekday: 'short' });
+                        const forecastDayElement = document.createElement('div');
+                        forecastDayElement.className = 'forecast-day';
+                        forecastDayElement.innerHTML = `
+                            <div class="day">${dayName}</div>
+                            <img src="https://openweathermap.org/img/wn/${day.icon}.png" alt="${day.description}">
+                            <div class="temp">${Math.round(day.temp)}°C</div>
+                        `;
+                        forecastContainer.appendChild(forecastDayElement);
+                    });
+                } else {
+                    forecastContainer.innerHTML = '<div>No forecast data from backend.</div>';
+                }
                 weatherDisplay.style.opacity = 0;
                 weatherDisplay.style.display = 'block';
                 void weatherDisplay.offsetWidth;
                 weatherDisplay.style.opacity = 1;
                 weatherDisplay.style.transition = 'opacity 0.5s ease-in-out';
             }
-            
-            // Event listeners
             searchBtn.addEventListener('click', async () => {
                 const city = cityInput.value.trim();
-                
                 if (city) {
-                    // Add click animation
                     searchBtn.classList.add('clicked');
                     setTimeout(() => searchBtn.classList.remove('clicked'), 300);
-                    
                     const weatherData = await fetchWeatherData(city);
                     if (weatherData) {
                         displayWeatherData(weatherData);
                     }
+                }
+            });
+            cityInput.addEventListener('keydown', async (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    searchBtn.click();
                 }
             });
         });
